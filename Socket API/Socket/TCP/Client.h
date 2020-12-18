@@ -17,17 +17,17 @@ namespace Socket
 			bool bConnected = false;
 
 		public:
-			Client();
-			~Client();
+			Client()                                                     noexcept;
+			~Client()                                                    noexcept;
 
 		public:
-			bool Connect(const std::string &ip, const std::size_t &port);
-			bool Send(const std::string &msg);
-			std::string Recv();
+			bool Connect(const std::string &ip, const std::size_t &port) noexcept;
+			bool Send(const std::string &msg)                            noexcept;
+			std::string Recv()                                           noexcept;
 
 		public:
-			void Close();
-			bool isConnected();
+			void Close()                                                 noexcept;
+			bool isConnected()                                     const noexcept;
 		};
 
 		// AsyncClient - asyncronous Client
@@ -41,22 +41,22 @@ namespace Socket
 			std::mutex m_lock;
 
 		public:
-			AsyncClient();
-			~AsyncClient();
+			AsyncClient()                                                noexcept;
+			~AsyncClient()                                               noexcept;
 
 		private:
-			void receiver_thread();
+			void receiver_thread()                                       noexcept;
 
 		public:
-			bool Send(const std::string &msg);
-			bool Connect(const std::string &ip, const std::size_t &port);
-			bool isAvailable();
-			std::string Recv();
+			bool Send(const std::string &msg)                            noexcept;
+			bool Connect(const std::string &ip, const std::size_t &port) noexcept;
+			bool isAvailable()                                           noexcept;
+			std::string Recv()                                           noexcept;
 
 		public:
-			void Clear();
-			void Close();
-			bool isConnected();
+			void Clear()                                                 noexcept;
+			void Close()                                                 noexcept;
+			bool isConnected()                                     const noexcept;
 		};
 	}
 }

@@ -6,29 +6,29 @@ namespace Socket
 	{
 		// Server Connection implementation
 
-		ServerConnection::ServerConnection()
+		ServerConnection::ServerConnection() noexcept
 		{
 			ClientSocket = SOCKET();
 			ZeroMemory(buf, DEFAULT_BUFLEN);
 		}
-
-		ServerConnection::ServerConnection(const SOCKET &sock)
+		
+		ServerConnection::ServerConnection(const SOCKET &sock) noexcept
 		{
 			ClientSocket = sock;
 			ZeroMemory(buf, DEFAULT_BUFLEN);
 		}
 
-		ServerConnection::~ServerConnection()
+		ServerConnection::~ServerConnection() noexcept
 		{
 			closesocket(ClientSocket);
 		}
 
-		void ServerConnection::Send(const char *buf)
+		void ServerConnection::Send(const std::string &msg) noexcept
 		{
-			send(ClientSocket, buf, sizeof(buf), 0);
+			send(ClientSocket, msg.c_str(), msg.size(), 0);
 		}
 
-		std::string ServerConnection::Recv()
+		std::string ServerConnection::Recv() noexcept
 		{
 			std::string msg;
 
@@ -44,7 +44,7 @@ namespace Socket
 			return msg;
 		}
 
-		SOCKET ServerConnection::getSocket()
+		SOCKET ServerConnection::getSocket() const noexcept
 		{
 			return ClientSocket;
 		}
@@ -52,7 +52,7 @@ namespace Socket
 
 		// Server implementation
 
-		Server::Server()
+		Server::Server() noexcept
 		{
 			ZeroMemory(&hints, sizeof(hints));
 			hints.ai_family = AF_INET;
@@ -63,15 +63,15 @@ namespace Socket
 			m_nResult = WSAStartup(MAKEWORD(2, 2), &m_wsaData);
 		}
 
-		Server::~Server()
+		Server::~Server() noexcept
 		{
 			closesocket(m_socket);
 			WSACleanup();
 		}
 
-		bool Server::Bind(const char *port)
+		bool Server::Bind(const std::size_t &port) noexcept
 		{
-			getaddrinfo(NULL, port, &hints, &result);
+			getaddrinfo(NULL, std::to_string(port).c_str(), &hints, &result);
 			m_socket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
 			bind(m_socket, result->ai_addr, (int)result->ai_addrlen);
 			freeaddrinfo(result);
@@ -80,7 +80,7 @@ namespace Socket
 			return m_socket != SOCKET_ERROR;
 		}
 
-		ServerConnection *Server::Accept()
+		ServerConnection *Server::Accept() noexcept
 		{
 			SOCKET clientSocket = accept(m_socket, NULL, NULL);
 			return new ServerConnection(clientSocket);
@@ -89,7 +89,7 @@ namespace Socket
 
 		// Auto Managed Server implementation
 
-		AutoManagedServer::AutoManagedServer(const char *port, std::function<void(ServerConnection *)> function)
+		AutoManagedServer::AutoManagedServer(const std::size_t &port, std::function<void(ServerConnection *)> function) noexcept
 		{
 			m_qThreads = std::queue<std::thread *>();
 
@@ -100,7 +100,7 @@ namespace Socket
 			m_accepter = std::thread(&AutoManagedServer::mainloop, this, function);
 		}
 
-		AutoManagedServer::~AutoManagedServer()
+		AutoManagedServer::~AutoManagedServer() noexcept
 		{
 			if (m_cleanup.joinable())
 				m_cleanup.detach();
@@ -109,7 +109,7 @@ namespace Socket
 				m_accepter.detach();
 		}
 
-		void AutoManagedServer::cleanup()
+		void AutoManagedServer::cleanup() noexcept
 		{
 			while (true)
 			{
@@ -132,7 +132,7 @@ namespace Socket
 			}
 		}
 
-		void AutoManagedServer::mainloop(std::function<void(ServerConnection *)> function)
+		void AutoManagedServer::mainloop(std::function<void(ServerConnection *)> function) noexcept
 		{
 			while (true)
 			{
@@ -141,7 +141,7 @@ namespace Socket
 			}
 		}
 
-		size_t AutoManagedServer::getCurrentConnections()
+		size_t AutoManagedServer::getCurrentConnections() const noexcept
 		{
 			return m_qThreads.size();
 		}

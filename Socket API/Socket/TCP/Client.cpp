@@ -4,19 +4,19 @@ namespace Socket
 {
 	namespace TCP
 	{
-		Client::Client()
+		Client::Client() noexcept
 		{
 			// just start the Windows Sockets
 			m_nResult = WSAStartup(MAKEWORD(2, 2), &m_wsaData);
 		}
 
-		Client::~Client()
+		Client::~Client() noexcept
 		{
 			// cleanup
 			Close();
 		}
 
-		bool Client::Connect(const std::string &ip, const std::size_t &port)
+		bool Client::Connect(const std::string &ip, const std::size_t &port) noexcept
 		{
 			addrinfo *result, *ptr, hints;
 
@@ -50,14 +50,14 @@ namespace Socket
 			return bConnected;
 		}
 
-		bool Client::Send(const std::string &msg)
+		bool Client::Send(const std::string &msg) noexcept
 		{
 			bConnected = send(m_socket, msg.c_str(), msg.size(), 0) > 0 && m_socket > 0;
 
 			return bConnected;
 		}
 
-		std::string Client::Recv()
+		std::string Client::Recv() noexcept
 		{
 			// receive
 			ZeroMemory(m_recvbuf, m_nRecvbuflen);
@@ -74,31 +74,31 @@ namespace Socket
 
 			return str;
 		}
-
-		void Client::Close()
+		
+		void Client::Close() noexcept
 		{
 			// cleanup
 			closesocket(m_socket);
 		}
 
-		bool Client::isConnected()
+		bool Client::isConnected() const noexcept
 		{
 			return bConnected;
 		}
 
 		// AsnycClient Implementation
-		AsyncClient::AsyncClient()
+		AsyncClient::AsyncClient() noexcept
 		{
 			m_qMsgs = std::queue<std::string>();
 		}
 
-		Socket::TCP::AsyncClient::~AsyncClient()
+		Socket::TCP::AsyncClient::~AsyncClient() noexcept
 		{
 			if (m_tReceiver.joinable())
 				m_tReceiver.detach();
 		}
 
-		void AsyncClient::receiver_thread()
+		void AsyncClient::receiver_thread() noexcept
 		{
 			while (true)
 			{
@@ -112,12 +112,12 @@ namespace Socket
 			}
 		}
 
-		bool AsyncClient::Send(const std::string &msg)
+		bool AsyncClient::Send(const std::string &msg) noexcept
 		{
 			return m_client.Send(msg);
 		}
 
-		bool AsyncClient::Connect(const std::string &ip, const std::size_t &port)
+		bool AsyncClient::Connect(const std::string &ip, const std::size_t &port) noexcept
 		{
 			if (m_client.Connect(ip, port))
 			{
@@ -129,12 +129,12 @@ namespace Socket
 			return false;
 		}
 
-		bool AsyncClient::isConnected()
+		bool AsyncClient::isConnected() const noexcept
 		{
 			return m_client.isConnected();
 		}
 
-		bool AsyncClient::isAvailable()
+		bool AsyncClient::isAvailable() noexcept
 		{
 			m_lock.lock();
 			bool bVal = m_qMsgs.size() > 0;
@@ -143,7 +143,7 @@ namespace Socket
 			return bVal;
 		}
 
-		std::string AsyncClient::Recv()
+		std::string AsyncClient::Recv() noexcept
 		{
 			m_lock.lock();
 			std::string sFront = m_qMsgs.front();
@@ -153,7 +153,7 @@ namespace Socket
 			return sFront;
 		}
 
-		void AsyncClient::Clear()
+		void AsyncClient::Clear() noexcept
 		{
 			m_lock.lock();
 			while (!m_qMsgs.empty())
@@ -161,7 +161,7 @@ namespace Socket
 			m_lock.unlock();
 		}
 
-		void AsyncClient::Close()
+		void AsyncClient::Close() noexcept
 		{
 			m_client.Close();
 			Clear();

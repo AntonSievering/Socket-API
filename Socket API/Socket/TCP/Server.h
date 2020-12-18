@@ -13,15 +13,15 @@ namespace Socket
 			char buf[DEFAULT_BUFLEN];
 
 		public:
-			ServerConnection();
-			ServerConnection(const SOCKET &sock);
-			~ServerConnection();
+			ServerConnection()                   noexcept;
+			ServerConnection(const SOCKET &sock) noexcept;
+			~ServerConnection()                  noexcept;
 
 		public:
-			void Send(const char *buf);
-			std::string Recv();
+			void Send(const std::string &msg)    noexcept;
+			std::string Recv()                   noexcept;
 
-			SOCKET getSocket();
+			SOCKET getSocket()             const noexcept;
 		};
 
 		// Server - manages the SOCKETS
@@ -35,12 +35,12 @@ namespace Socket
 			addrinfo *result, hints;
 
 		public:
-			Server();
-			~Server();
+			Server()                           noexcept;
+			~Server()                          noexcept;
 
 		public:
-			bool Bind(const char *port);
-			ServerConnection *Accept();
+			bool Bind(const std::size_t &port) noexcept;
+			ServerConnection *Accept()         noexcept;
 		};
 
 		// AutoManagedServer - accepts connections and calls the specified function in a new thread
@@ -54,15 +54,15 @@ namespace Socket
 			Server m_sock;
 
 		public:
-			AutoManagedServer(const char *port, std::function<void(ServerConnection *)> function);
-			~AutoManagedServer();
+			AutoManagedServer(const std::size_t &port, std::function<void(ServerConnection *)> function) noexcept;
+			~AutoManagedServer()                                            noexcept;
 
 		private:
-			void cleanup();
-			void mainloop(std::function<void(ServerConnection *)> function);
+			void cleanup()                                                  noexcept;
+			void mainloop(std::function<void(ServerConnection *)> function) noexcept;
 
 		public:
-			size_t getCurrentConnections();
+			size_t getCurrentConnections()                            const noexcept;
 		};
 	}
 }

@@ -50,12 +50,12 @@ namespace Socket
 		public:
 			bool Send(const std::string &msg)                            noexcept;
 			bool Connect(const std::string &ip, const std::size_t &port) noexcept;
-			bool isAvailable()                                           noexcept;
 			std::string Recv()                                           noexcept;
 
 		public:
 			void Clear()                                                 noexcept;
 			void Close()                                                 noexcept;
+			bool isAvailable()                                           noexcept;
 			bool isConnected()                                     const noexcept;
 		};
 	}

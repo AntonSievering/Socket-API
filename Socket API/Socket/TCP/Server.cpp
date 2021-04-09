@@ -4,61 +4,15 @@ namespace Socket
 {
 	namespace TCP
 	{
-		// Server Connection implementation
-
-		ServerConnection::ServerConnection() noexcept
-		{
-			ClientSocket = SOCKET();
-			ZeroMemory(buf, DEFAULT_BUFLEN);
-		}
-		
-		ServerConnection::ServerConnection(const SOCKET &sock) noexcept
-		{
-			ClientSocket = sock;
-			ZeroMemory(buf, DEFAULT_BUFLEN);
-		}
-
-		ServerConnection::~ServerConnection() noexcept
-		{
-			closesocket(ClientSocket);
-		}
-
-		void ServerConnection::Send(const std::string &msg) noexcept
-		{
-			send(ClientSocket, msg.c_str(), msg.size(), 0);
-		}
-
-		std::string ServerConnection::Recv() noexcept
-		{
-			std::string msg;
-
-			ZeroMemory(buf, DEFAULT_BUFLEN);
-			int length = recv(ClientSocket, buf, DEFAULT_BUFLEN, 0);
-
-			if (length > 0)
-			{
-				msg.resize(length);
-				msg.assign(buf);
-			}
-
-			return msg;
-		}
-
-		SOCKET ServerConnection::getSocket() const noexcept
-		{
-			return ClientSocket;
-		}
-
-
 		// Server implementation
 
 		Server::Server() noexcept
 		{
-			ZeroMemory(&hints, sizeof(hints));
-			hints.ai_family = AF_INET;
-			hints.ai_socktype = SOCK_STREAM;
-			hints.ai_protocol = IPPROTO_TCP;
-			hints.ai_flags = AI_PASSIVE;
+			ZeroMemory(&m_hints, sizeof(m_hints));
+			m_hints.ai_family   = AF_INET;
+			m_hints.ai_socktype = SOCK_STREAM;
+			m_hints.ai_protocol = IPPROTO_TCP;
+			m_hints.ai_flags    = AI_PASSIVE;
 
 			m_nResult = WSAStartup(MAKEWORD(2, 2), &m_wsaData);
 		}
@@ -71,7 +25,8 @@ namespace Socket
 
 		bool Server::Bind(const std::size_t &port) noexcept
 		{
-			getaddrinfo(NULL, std::to_string(port).c_str(), &hints, &result);
+			addrinfo *result;
+			getaddrinfo(NULL, std::to_string(port).c_str(), &m_hints, &result);
 			m_socket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
 			bind(m_socket, result->ai_addr, (int)result->ai_addrlen);
 			freeaddrinfo(result);
@@ -80,65 +35,74 @@ namespace Socket
 			return m_socket != SOCKET_ERROR;
 		}
 
-		ServerConnection *Server::Accept() noexcept
+		SocketConnection *Server::Accept() noexcept
 		{
-			SOCKET clientSocket = accept(m_socket, NULL, NULL);
-			return new ServerConnection(clientSocket);
+			sockaddr_in addr{};
+			int addrlen = sizeof(sockaddr_in);
+			SOCKET sock = accept(m_socket, (sockaddr*)&addr, &addrlen);
+
+			return new SocketConnection(sock, addr);
 		}
 
 
 		// Auto Managed Server implementation
 
-		AutoManagedServer::AutoManagedServer(const std::size_t &port, std::function<void(ServerConnection *)> function) noexcept
+		AutoManagedServer::AutoManagedServer() noexcept
 		{
-			m_qThreads = std::queue<std::thread *>();
-
-			m_sock = Socket::TCP::Server();
-			m_sock.Bind(port);
-
-			m_cleanup = std::thread(&AutoManagedServer::cleanup, this);
-			m_accepter = std::thread(&AutoManagedServer::mainloop, this, function);
 		}
 
 		AutoManagedServer::~AutoManagedServer() noexcept
 		{
-			if (m_cleanup.joinable())
-				m_cleanup.detach();
-
 			if (m_accepter.joinable())
 				m_accepter.detach();
+
+			if (m_cleanup.joinable())
+				m_cleanup.detach();
 		}
 
+		void AutoManagedServer::start(const std::size_t &port) noexcept
+		{
+			m_sock = Socket::TCP::Server();
+			m_sock.Bind(port);
+
+			m_cleanup  = std::thread(&AutoManagedServer::cleanup,  this);
+			m_accepter = std::thread(&AutoManagedServer::mainloop, this);
+		}
+		
 		void AutoManagedServer::cleanup() noexcept
 		{
 			while (true)
 			{
 				if (m_qThreads.size() > 0)
 				{
-					if (m_qThreads.front()->joinable())
+					while (!m_qThreads.front()->joinable())
+						std::this_thread::sleep_for(std::chrono::nanoseconds(1));
+					
+					try
 					{
-						try
-						{
-							m_qThreads.front()->join();
-							delete m_qThreads.front();
-						}
-						catch (...) { }
+						m_qThreads.front()->join();
+						delete m_qThreads.front();
+						m_qThreads.pop();
 					}
-
-					m_qThreads.pop();
+					catch (...) { }
 				}
-
-				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+				else
+				{
+					std::this_thread::sleep_for(std::chrono::milliseconds(1));
+				}
 			}
 		}
 
-		void AutoManagedServer::mainloop(std::function<void(ServerConnection *)> function) noexcept
+		void AutoManagedServer::mainloop() noexcept
 		{
 			while (true)
-			{
-				m_qThreads.push(new std::thread(function, m_sock.Accept()));
-				std::this_thread::sleep_for(std::chrono::milliseconds(1));
-			}
+				m_qThreads.push(new std::thread(&AutoManagedServer::handler, this, m_sock.Accept()));
+		}
+
+		void AutoManagedServer::handler(SocketConnection *connection) noexcept
+		{
+			handle(connection);
+			delete connection;
 		}
 
 		size_t AutoManagedServer::getCurrentConnections() const noexcept

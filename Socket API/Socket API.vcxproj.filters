@@ -32,6 +32,9 @@
     <ClCompile Include="Socket\TCP\SocketConnection.cpp">
       <Filter>Socket\TCP</Filter>
     </ClCompile>
+    <ClCompile Include="Socket\UDP\Server.cpp">
+      <Filter>Socket\UDP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Socket\TCP\Client.h">
@@ -45,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="Socket\TCP\SocketConnection.h">
       <Filter>Socket\TCP</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\UDP\Server.h">
+      <Filter>Socket\UDP</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

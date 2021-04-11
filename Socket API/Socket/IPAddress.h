@@ -36,5 +36,29 @@ namespace Socket
 			this->addr[2] = addr[2];
 			this->addr[3] = addr[3];
 		}
+
+		IPAddress(const sockaddr_in &sockaddr) noexcept
+		{
+			this->addr[0] = sockaddr.sin_addr.S_un.S_un_b.s_b1;
+			this->addr[1] = sockaddr.sin_addr.S_un.S_un_b.s_b2;
+			this->addr[2] = sockaddr.sin_addr.S_un.S_un_b.s_b3;
+			this->addr[3] = sockaddr.sin_addr.S_un.S_un_b.s_b4;
+		}
+
+	public:
+		uint8_t &operator[](const uint8_t &i) noexcept
+		{
+			return addr[i];
+		}
+
+		operator uint32_t&() noexcept
+		{
+			return chunk;
+		}
+
+		operator uint32_t() const noexcept
+		{
+			return chunk;
+		}
 	};
 }

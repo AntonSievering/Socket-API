@@ -35,6 +35,9 @@
     <ClCompile Include="Socket\UDP\Server.cpp">
       <Filter>Socket\UDP</Filter>
     </ClCompile>
+    <ClCompile Include="Socket\UDP\ClientInfo.cpp">
+      <Filter>Socket\UDP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Socket\TCP\Client.h">
@@ -50,6 +53,21 @@
       <Filter>Socket\TCP</Filter>
     </ClInclude>
     <ClInclude Include="Socket\UDP\Server.h">
+      <Filter>Socket\UDP</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\IOContext.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\IOContext_Linux.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\IOContext_Win32.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\IOContext_Base.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\UDP\ClientInfo.h">
       <Filter>Socket\UDP</Filter>
     </ClInclude>
   </ItemGroup>

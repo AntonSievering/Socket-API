@@ -1,4 +1,6 @@
 #include "../defines.h"
+#include "../IPAddress.h"
+#include "../IOContext.h"
 
 namespace Socket
 {
@@ -7,30 +9,30 @@ namespace Socket
 		class SocketConnection
 		{
 		private:
-			SOCKET m_socket;
-			char buf[DEFAULT_BUFLEN];
+			IOContext *m_pIOContext        = nullptr;
+			SOCKET     m_socket            = INVALID_SOCKET;
+			bool       m_bStartupSucceeded = false;
 
 		public:
-			uint8_t clientAddr[4];
+			IPAddress  m_ipAddr{};
 
 		public:
-			SocketConnection() noexcept;
-			SocketConnection(const SOCKET &sock, const sockaddr_in &addr) noexcept;
-			SocketConnection(const std::string &ip, const std::size_t &port) noexcept;
+			SocketConnection() noexcept = default;
+			SocketConnection(IOContext &ioContext, const SOCKET &sock, const sockaddr_in &addr) noexcept;
+			SocketConnection(IOContext &ioContext, const std::string &ip, const std::size_t &port) noexcept;
 			~SocketConnection() noexcept;
 
 		public:
-			void Send(const std::string &msg) noexcept;
+			bool Send(const std::string &msg) noexcept;
 
 			uint64_t getReceivedBytes() const noexcept;
 			bool isAvailable() const noexcept;
-			std::string RecvNonBlocking() noexcept;
-			std::string Recv(const uint64_t &nMaxLength = 1024) noexcept;
+			bool startupSucceeded() const noexcept;
+			std::string Recv() noexcept;
+			void Close() noexcept;
 
 			SOCKET getSocket() const noexcept;
-
-		private:
-			void initializeWinsock() noexcept;
+			IPAddress getIPAddress() const noexcept;
 		};
 	}
 }

@@ -10,14 +10,13 @@ namespace Socket
 		class Server
 		{
 		private:
-			WSAData m_wsaData;
-			SOCKET m_socket = INVALID_SOCKET;
-			int m_nResult;
-			addrinfo m_hints;
+			IOContext *ioContext = nullptr;
+			SOCKET     m_socket  = INVALID_SOCKET;
+			int        m_nResult = 0;
 
 		public:
-			Server()                           noexcept;
-			~Server()                          noexcept;
+			Server() noexcept = default;
+			~Server() noexcept;
 
 		public:
 			bool Bind(const std::size_t &port) noexcept;

@@ -1,5 +1,7 @@
 #pragma once
 #include "../defines.h"
+#include "../IPAddress.h"
+#include "../IOContext.h"
 
 namespace Socket
 {
@@ -9,27 +11,29 @@ namespace Socket
 		{
 		public:
 			std::string sContent;
-			uint8_t addr[4];
+			IPAddress addr;
 		};
 
-		// Server - manages the SOCKETS
 		class Server
 		{
 		private:
-			WSAData wsaData;
-			SOCKET m_socket = INVALID_SOCKET;
-			sockaddr_in m_cachedClient;
-			int m_nCachedClientLength = sizeof(m_cachedClient);
 			constexpr static const int s_bufferLength = 1024;
-			char m_buffer[s_bufferLength];
+
+		private:
+			IOContext  *m_pIOContext          = nullptr;
+			SOCKET      m_socket              = INVALID_SOCKET;
+			int         m_nCachedClientLength = sizeof(m_cachedClient);
+			sockaddr_in m_cachedClient{};
+			char        m_buffer[s_bufferLength]{};
 
 		public:
-			Server()                           noexcept;
-			~Server()                          noexcept;
+			Server() noexcept = default;
+			Server(IOContext &ioContext) noexcept;
+			~Server() noexcept;
 
 		public:
 			bool Bind(const std::size_t &port) noexcept;
-			Message Accept()                   noexcept;
+			Message Accept() noexcept;
 		};
 	}
 }

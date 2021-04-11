@@ -4,23 +4,18 @@ namespace Socket
 {
 	namespace UDP
 	{
-		// Server implementation
-
-		Server::Server() noexcept
+		Server::Server(IOContext &ioContext) noexcept
 		{
+			m_pIOContext = &ioContext;
 		}
 
 		Server::~Server() noexcept
 		{
 			closesocket(m_socket);
-			WSACleanup();
 		}
 
 		bool Server::Bind(const std::size_t &port) noexcept
 		{
-			if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
-				return false;
-
 			m_socket = socket(AF_INET, SOCK_DGRAM, 0);
 
 			sockaddr_in server{};

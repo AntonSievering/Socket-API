@@ -23,21 +23,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Socket\TCP\Client.cpp">
-      <Filter>Socket\TCP</Filter>
-    </ClCompile>
-    <ClCompile Include="Socket\TCP\Server.cpp">
-      <Filter>Socket\TCP</Filter>
-    </ClCompile>
-    <ClCompile Include="Socket\TCP\SocketConnection.cpp">
-      <Filter>Socket\TCP</Filter>
-    </ClCompile>
-    <ClCompile Include="Socket\UDP\Server.cpp">
-      <Filter>Socket\UDP</Filter>
-    </ClCompile>
-    <ClCompile Include="Socket\UDP\ClientInfo.cpp">
-      <Filter>Socket\UDP</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Socket\TCP\Client.h">

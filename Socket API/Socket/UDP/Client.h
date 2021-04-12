@@ -15,11 +15,24 @@ namespace Socket
 
 		public:
 			Client() noexcept = default;
-			Client(IOContext &ioContext) noexcept;
-			~Client() noexcept;
+			
+			Client(IOContext &ioContext) noexcept
+			{
+				m_pIOContext = &ioContext;
+				m_socket = socket(AF_INET, SOCK_DGRAM, 0);
+			}
+
+			~Client() noexcept
+			{
+				closesocket(m_socket);
+			}
 
 		public:
-			bool Send(const std::string &sContent, const ClientInfo &info) noexcept;
+			bool Send(const std::string &sContent, const ClientInfo &info) noexcept
+			{
+				sockaddr_in addr = info.getSockaddr();
+				return sendto(m_socket, sContent.c_str(), sContent.size(), 0, (sockaddr *)&addr, sizeof(addr)) > 0;
+			}
 		};
 	}
 }

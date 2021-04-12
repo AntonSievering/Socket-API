@@ -147,7 +147,6 @@
     <ClCompile Include="Socket\TCP\Client.cpp" />
     <ClCompile Include="Socket\TCP\Server.cpp" />
     <ClCompile Include="Socket\TCP\SocketConnection.cpp" />
-    <ClCompile Include="Socket\UDP\Client.cpp" />
     <ClCompile Include="Socket\UDP\ClientInfo.cpp" />
     <ClCompile Include="Socket\UDP\Server.cpp" />
   </ItemGroup>

@@ -38,9 +38,6 @@
     <ClCompile Include="Socket\UDP\ClientInfo.cpp">
       <Filter>Socket\UDP</Filter>
     </ClCompile>
-    <ClCompile Include="Socket\UDP\Client.cpp">
-      <Filter>Socket\UDP</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Socket\TCP\Client.h">

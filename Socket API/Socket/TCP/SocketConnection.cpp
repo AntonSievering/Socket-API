@@ -11,9 +11,10 @@ namespace Socket
 			m_ipAddr = IPAddress(addr);
 		}
 
-		SocketConnection::SocketConnection(IOContext &ioContext, const std::string &ip, const std::size_t &port) noexcept
+		SocketConnection::SocketConnection(IOContext &ioContext, const IPAddress &ip, const std::size_t &port) noexcept
 		{
 			m_pIOContext = &ioContext;
+			m_ipAddr = ip;
 			
 			// IPv4 TCP connection
 			addrinfo *result, hints;
@@ -23,7 +24,7 @@ namespace Socket
 			hints.ai_protocol = IPPROTO_TCP;
 
 			// convert string ip into 
-			(void)getaddrinfo(ip.c_str(), std::to_string(port).c_str(), &hints, &result);
+			(void)getaddrinfo(ip.asString().c_str(), std::to_string(port).c_str(), &hints, &result);
 
 			// try to connect to one of the possible addresses
 			for (addrinfo *ptr = result; ptr != nullptr; ptr = ptr->ai_next)

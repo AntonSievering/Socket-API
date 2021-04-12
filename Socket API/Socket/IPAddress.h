@@ -73,5 +73,10 @@ namespace Socket
 		{
 			return chunk;
 		}
+
+		std::string asString() const noexcept
+		{
+			return std::to_string(addr[0]) + "." + std::to_string(addr[1]) + "." + std::to_string(addr[2]) + "." + std::to_string(addr[3]);
+		}
 	};
 }

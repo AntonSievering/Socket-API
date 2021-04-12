@@ -1,6 +1,7 @@
 #pragma once
 #include "../defines.h"
 #include "../IOContext.h"
+#include "../IPAddress.h"
 #include "SocketConnection.h"
 
 namespace Socket
@@ -28,7 +29,7 @@ namespace Socket
 
 		public:
 			bool Send(const std::string &msg)                            noexcept;
-			bool Connect(const std::string &ip, const std::size_t &port) noexcept;
+			bool Connect(const IPAddress &ip, const std::size_t &port)   noexcept;
 			std::string Recv()                                           noexcept;
 
 		public:

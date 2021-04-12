@@ -36,7 +36,7 @@ namespace Socket
 			return m_client.Send(msg);
 		}
 
-		bool AsyncClient::Connect(const std::string &ip, const std::size_t &port) noexcept
+		bool AsyncClient::Connect(const IPAddress &ip, const std::size_t &port) noexcept
 		{
 			m_client = SocketConnection(*m_client.getIOContext(), ip, port);
 			

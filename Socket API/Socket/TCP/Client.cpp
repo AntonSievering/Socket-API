@@ -1,4 +1,5 @@
 #include "Client.h"
+#include "..\UDP\Client.h"
 
 namespace Socket
 {
@@ -37,7 +38,7 @@ namespace Socket
 
 		bool AsyncClient::Connect(const std::string &ip, const std::size_t &port) noexcept
 		{
-			m_client = SocketConnection(ip, port);
+			m_client = SocketConnection(*m_client.getIOContext(), ip, port);
 			
 			if (m_client.startupSucceeded())
 			{

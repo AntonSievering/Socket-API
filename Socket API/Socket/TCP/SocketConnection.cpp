@@ -96,5 +96,10 @@ namespace Socket
 		{
 			return m_ipAddr;
 		}
+		
+		IOContext *SocketConnection::getIOContext() const noexcept
+		{
+			return m_pIOContext;
+		}
 	}
 }

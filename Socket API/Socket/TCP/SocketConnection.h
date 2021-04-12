@@ -33,6 +33,7 @@ namespace Socket
 
 			SOCKET getSocket() const noexcept;
 			IPAddress getIPAddress() const noexcept;
+			IOContext *getIOContext() const noexcept;
 		};
 	}
 }

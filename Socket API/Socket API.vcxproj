@@ -147,6 +147,7 @@
     <ClCompile Include="Socket\TCP\Client.cpp" />
     <ClCompile Include="Socket\TCP\Server.cpp" />
     <ClCompile Include="Socket\TCP\SocketConnection.cpp" />
+    <ClCompile Include="Socket\UDP\Client.cpp" />
     <ClCompile Include="Socket\UDP\ClientInfo.cpp" />
     <ClCompile Include="Socket\UDP\Server.cpp" />
   </ItemGroup>
@@ -156,9 +157,11 @@
     <ClInclude Include="Socket\IOContext_Base.h" />
     <ClInclude Include="Socket\IOContext_Linux.h" />
     <ClInclude Include="Socket\IOContext_Win32.h" />
+    <ClInclude Include="Socket\IPAddress.h" />
     <ClInclude Include="Socket\TCP\Client.h" />
     <ClInclude Include="Socket\TCP\Server.h" />
     <ClInclude Include="Socket\TCP\SocketConnection.h" />
+    <ClInclude Include="Socket\UDP\Client.h" />
     <ClInclude Include="Socket\UDP\ClientInfo.h" />
     <ClInclude Include="Socket\UDP\Server.h" />
   </ItemGroup>

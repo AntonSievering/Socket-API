@@ -45,6 +45,19 @@ namespace Socket
 			this->addr[3] = sockaddr.sin_addr.S_un.S_un_b.s_b4;
 		}
 
+		IPAddress(const std::string &sIP) noexcept
+		{
+			sockaddr_in server{};
+			server.sin_family = AF_INET;
+			server.sin_port = htons(1000);
+			inet_pton(AF_INET, sIP.c_str(), &server.sin_addr);
+
+			addr[0] = server.sin_addr.S_un.S_un_b.s_b1;
+			addr[1] = server.sin_addr.S_un.S_un_b.s_b2;
+			addr[2] = server.sin_addr.S_un.S_un_b.s_b3;
+			addr[3] = server.sin_addr.S_un.S_un_b.s_b4;
+		}
+
 	public:
 		uint8_t &operator[](const uint8_t &i) noexcept
 		{

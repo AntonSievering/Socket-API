@@ -38,6 +38,9 @@
     <ClCompile Include="Socket\UDP\ClientInfo.cpp">
       <Filter>Socket\UDP</Filter>
     </ClCompile>
+    <ClCompile Include="Socket\UDP\Client.cpp">
+      <Filter>Socket\UDP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Socket\TCP\Client.h">
@@ -68,6 +71,12 @@
       <Filter>Socket</Filter>
     </ClInclude>
     <ClInclude Include="Socket\UDP\ClientInfo.h">
+      <Filter>Socket\UDP</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\IPAddress.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\UDP\Client.h">
       <Filter>Socket\UDP</Filter>
     </ClInclude>
   </ItemGroup>

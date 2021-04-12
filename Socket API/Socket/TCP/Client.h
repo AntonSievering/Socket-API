@@ -36,10 +36,11 @@ namespace Socket
 				{
 					std::string recv = m_client.Recv();
 
-					m_lock.lock();
-					m_qMsgs.push(recv);
-					m_lock.unlock();
-
+					{
+						std::scoped_lock lock(m_lock);
+						m_qMsgs.push(recv);
+					}
+					
 					std::this_thread::sleep_for(std::chrono::milliseconds(1));
 				}
 			}
@@ -66,10 +67,12 @@ namespace Socket
 			
 			std::string Recv() noexcept
 			{
-				m_lock.lock();
-				std::string sFront = m_qMsgs.front();
-				m_qMsgs.pop();
-				m_lock.unlock();
+				std::string sFront;
+				{
+					std::scoped_lock lock(m_lock);
+					sFront = m_qMsgs.front();
+					m_qMsgs.pop();
+				}
 
 				return sFront;
 			}
@@ -77,10 +80,10 @@ namespace Socket
 		public:
 			void Clear() noexcept
 			{
-				m_lock.lock();
+				std::scoped_lock lock(m_lock);
+
 				while (!m_qMsgs.empty())
 					m_qMsgs.pop();
-				m_lock.unlock();
 			}
 			
 			void Close() noexcept
@@ -91,9 +94,8 @@ namespace Socket
 			
 			bool isAvailable() noexcept
 			{
-				m_lock.lock();
+				std::scoped_lock lock(m_lock);
 				bool bVal = m_qMsgs.size() > 0;
-				m_lock.unlock();
 
 				return bVal;
 			}

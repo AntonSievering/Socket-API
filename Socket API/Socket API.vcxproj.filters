@@ -18,6 +18,9 @@
     <Filter Include="Socket\UDP">
       <UniqueIdentifier>{682d18cd-543f-48f0-a7fa-92443606be40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Socket\IOContext">
+      <UniqueIdentifier>{9b3effdf-039f-421d-95df-1eff311f9532}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -40,18 +43,6 @@
     <ClInclude Include="Socket\UDP\Server.h">
       <Filter>Socket\UDP</Filter>
     </ClInclude>
-    <ClInclude Include="Socket\IOContext.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
-    <ClInclude Include="Socket\IOContext_Linux.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
-    <ClInclude Include="Socket\IOContext_Win32.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
-    <ClInclude Include="Socket\IOContext_Base.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
     <ClInclude Include="Socket\UDP\ClientInfo.h">
       <Filter>Socket\UDP</Filter>
     </ClInclude>
@@ -60,6 +51,18 @@
     </ClInclude>
     <ClInclude Include="Socket\UDP\Client.h">
       <Filter>Socket\UDP</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\IOContext_Win32.h">
+      <Filter>Socket\IOContext</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\IOContext.h">
+      <Filter>Socket\IOContext</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\IOContext_Base.h">
+      <Filter>Socket\IOContext</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\IOContext_Linux.h">
+      <Filter>Socket\IOContext</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

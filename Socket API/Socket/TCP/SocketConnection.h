@@ -1,6 +1,15 @@
 #include "../defines.h"
 #include "../IPAddress.h"
 #include "../IOContext.h"
+#include <algorithm>
+
+#ifdef max
+#undef max
+#endif
+
+#ifdef min
+#undef min
+#endif
 
 namespace Socket
 {
@@ -45,7 +54,7 @@ namespace Socket
 				for (addrinfo *ptr = result; ptr != nullptr; ptr = ptr->ai_next)
 				{
 					m_socket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
-					m_bStartupSucceeded = connect(m_socket, ptr->ai_addr, (int)ptr->ai_addrlen) > 0;
+					m_bStartupSucceeded = connect(m_socket, ptr->ai_addr, (int)ptr->ai_addrlen) == 0;
 
 					if (m_bStartupSucceeded)
 						break;
@@ -66,13 +75,14 @@ namespace Socket
 				return send(m_socket, msg.c_str(), msg.size(), 0) > 0;
 			}
 
-			std::string Recv() noexcept
+			std::string Recv(const uint32_t &nMax = 65536) noexcept
 			{
-				uint64_t n = getReceivedBytes();
+				uint32_t n = getReceivedBytes();
+				n = std::min(n, nMax);
 
 				if (n > 0)
 				{
-					std::unique_ptr<char> buffer = std::unique_ptr<char>(new char[n] { });
+					std::unique_ptr<char> buffer = std::unique_ptr<char>(new char[n]{});
 					(void)recv(m_socket, buffer.get(), n, 0);
 
 					return std::string(buffer.get(), n);
@@ -86,7 +96,7 @@ namespace Socket
 				closesocket(m_socket);
 			}
 
-			uint64_t getReceivedBytes() const noexcept
+			uint32_t getReceivedBytes() const noexcept
 			{
 				u_long n;
 				(void)ioctlsocket(m_socket, FIONREAD, &n);

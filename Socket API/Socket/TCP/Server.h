@@ -10,12 +10,17 @@ namespace Socket
 		class Server
 		{
 		private:
-			IOContext *ioContext = nullptr;
-			SOCKET     m_socket  = INVALID_SOCKET;
-			int        m_nResult = 0;
+			IOContext *m_ioContext = nullptr;
+			SOCKET     m_socket    = INVALID_SOCKET;
+			int        m_nResult   = 0;
 
 		public:
 			Server() noexcept = default;
+
+			Server(IOContext &context) noexcept
+			{
+				m_ioContext = &context;
+			}
 			
 			virtual ~Server() noexcept
 			{
@@ -46,7 +51,7 @@ namespace Socket
 				int addrlen = sizeof(sockaddr_in);
 				SOCKET sock = accept(m_socket, (sockaddr *)&addr, &addrlen);
 
-				return new SocketConnection(*ioContext, sock, addr);
+				return new SocketConnection(*m_ioContext, sock, addr);
 			}
 		};
 

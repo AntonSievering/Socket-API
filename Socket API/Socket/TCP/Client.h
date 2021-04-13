@@ -8,8 +8,6 @@ namespace Socket
 {
 	namespace TCP
 	{
-		using Client = SocketConnection;
-
 		// AsyncClient - asyncronous Client
 		// receives everything and puts it into a queue
 		class AsyncClient

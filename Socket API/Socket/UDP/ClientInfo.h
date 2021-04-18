@@ -25,6 +25,11 @@ namespace Socket
 				m_serverConnectionInfo.sin_addr.S_un.S_un_b.s_b4 = ip.addr[3];
 			}
 
+			ClientInfo(const sockaddr_in &clientInfo) noexcept
+			{
+				m_serverConnectionInfo = clientInfo;
+			}
+
 		public:
 			sockaddr_in getSockaddr() const noexcept
 			{

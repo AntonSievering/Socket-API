@@ -68,6 +68,11 @@ namespace Socket
 		public:
 			AutoManagedServer() noexcept = default;
 			
+			AutoManagedServer(IOContext &ioContext) noexcept
+			{
+				m_sock = Server(ioContext);
+			}
+
 			virtual ~AutoManagedServer() noexcept
 			{
 				if (m_accepter.joinable())
@@ -129,6 +134,14 @@ namespace Socket
 			size_t getCurrentConnections() const noexcept
 			{
 				return m_qThreads.size();
+			}
+
+			void join() noexcept
+			{
+				while (!m_accepter.joinable()) std::this_thread::sleep_for(std::chrono::microseconds(1));
+
+				m_accepter.join();
+				m_cleanup.join();
 			}
 		};
 	}

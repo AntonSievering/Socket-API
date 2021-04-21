@@ -133,13 +133,22 @@ namespace Socket
 
 			void Close() noexcept
 			{
+#ifdef _WIN32
 				closesocket(m_socket);
+#elif __linux__
+				shutdown(m_socket, 2);
+#endif
 			}
 
 			uint32_t getReceivedBytes() const noexcept
 			{
 				u_long n;
+
+#ifdef _WIN32
 				(void)ioctlsocket(m_socket, FIONREAD, &n);
+#elif __linux__
+				(void)ioctl(m_socket, FIONREAD, &n);
+#endif
 
 				return n;
 			}

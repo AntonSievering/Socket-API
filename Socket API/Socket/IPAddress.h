@@ -39,10 +39,7 @@ namespace Socket
 
 		IPAddress(const sockaddr_in &sockaddr) noexcept
 		{
-			this->addr[0] = sockaddr.sin_addr.S_un.S_un_b.s_b1;
-			this->addr[1] = sockaddr.sin_addr.S_un.S_un_b.s_b2;
-			this->addr[2] = sockaddr.sin_addr.S_un.S_un_b.s_b3;
-			this->addr[3] = sockaddr.sin_addr.S_un.S_un_b.s_b4;
+			copySockaddr(sockaddr);
 		}
 
 		IPAddress(const std::string &sIP) noexcept
@@ -52,10 +49,20 @@ namespace Socket
 			server.sin_port = htons(1000);
 			inet_pton(AF_INET, sIP.c_str(), &server.sin_addr);
 
-			addr[0] = server.sin_addr.S_un.S_un_b.s_b1;
-			addr[1] = server.sin_addr.S_un.S_un_b.s_b2;
-			addr[2] = server.sin_addr.S_un.S_un_b.s_b3;
-			addr[3] = server.sin_addr.S_un.S_un_b.s_b4;
+			copySockaddr(server);
+		}
+
+	private:
+		void copySockaddr(const sockaddr_in &sockaddr) noexcept
+		{
+#ifdef _WIN32
+			this->addr[0] = sockaddr.sin_addr.S_un.S_un_b.s_b1;
+			this->addr[1] = sockaddr.sin_addr.S_un.S_un_b.s_b2;
+			this->addr[2] = sockaddr.sin_addr.S_un.S_un_b.s_b3;
+			this->addr[3] = sockaddr.sin_addr.S_un.S_un_b.s_b4;
+#elif __linux__
+			chunk = sockaddr.sin_addr.s_addr;
+#endif
 		}
 
 	public:

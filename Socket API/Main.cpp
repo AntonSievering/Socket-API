@@ -5,7 +5,7 @@ int main()
 	Socket::IOContext ioContext{};
 	Socket::TCP::SocketConnection socket = Socket::TCP::SocketConnection(ioContext, Socket::IPAddress("192.168.178.52"), 5000);
 	
-	std::cout << "target machine ip address:\n";
+	std::cout << "target machine ip address: " << socket.getIPAddress().asString() << std::endl;
 	
 	size_t nReceivedBytes = 0;
 	double fTime = 0.0;

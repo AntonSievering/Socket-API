@@ -69,11 +69,6 @@ namespace Socket
 				freeaddrinfo(result);
 			}
 
-			~SocketConnection() noexcept
-			{
-				Close();
-			}
-
 		public:
 			bool Send(const std::string &msg) noexcept
 			{
@@ -131,6 +126,8 @@ namespace Socket
 				return std::string();
 			}
 
+			// manully closes the socket
+			// redundant when the object's lifetime ends
 			void Close() noexcept
 			{
 #ifdef _WIN32

@@ -40,11 +40,19 @@ namespace Socket
 				return m_socket != SOCKET_ERROR;
 			}
 			
-			SocketConnection *Accept() noexcept
+			[[nodiscard]] SocketConnection *Accept() noexcept
 			{
+				Socket sock = INVALID_SOCKET;
 				sockaddr_in addr{};
-				int addrlen = sizeof(sockaddr_in);
-				SOCKET sock = accept(m_socket, (sockaddr *)&addr, &addrlen);
+				
+				// TODO: Linux: accept() on failure == -1?
+				// Windows SOCKET is uint64_t?
+
+				while (sock != INVALID_SOCKET)
+				{
+					int addrlen = sizeof(sockaddr_in);
+					Socket sock = accept(m_socket, (sockaddr *)&addr, &addrlen);
+				}
 
 				return new SocketConnection(*m_ioContext, sock, addr);
 			}

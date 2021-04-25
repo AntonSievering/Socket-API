@@ -1,6 +1,7 @@
 #pragma once
 #include "../defines.h"
 #include "../IOContext.h"
+#include "../Socket.h"
 #include "ClientInfo.h"
 
 namespace Socket
@@ -11,7 +12,7 @@ namespace Socket
 		{
 		private:
 			IOContext *m_pIOContext;
-			SOCKET     m_socket;
+			Socket     m_socket;
 
 		public:
 			Client() noexcept = default;
@@ -33,11 +34,6 @@ namespace Socket
 					bind(m_socket, result->ai_addr, (int)result->ai_addrlen);
 					freeaddrinfo(result);
 				}
-			}
-
-			~Client() noexcept
-			{
-				closesocket(m_socket);
 			}
 
 		public:

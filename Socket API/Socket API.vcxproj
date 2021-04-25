@@ -152,6 +152,7 @@
     <ClInclude Include="Socket\IOContext_Linux.h" />
     <ClInclude Include="Socket\IOContext_Win32.h" />
     <ClInclude Include="Socket\IPAddress.h" />
+    <ClInclude Include="Socket\Socket.h" />
     <ClInclude Include="Socket\TCP\Client.h" />
     <ClInclude Include="Socket\TCP\Server.h" />
     <ClInclude Include="Socket\TCP\SocketConnection.h" />

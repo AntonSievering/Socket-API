@@ -64,5 +64,8 @@
     <ClInclude Include="Socket\IOContext_Linux.h">
       <Filter>Socket\IOContext</Filter>
     </ClInclude>
+    <ClInclude Include="Socket\Socket.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

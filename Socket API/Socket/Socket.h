@@ -5,26 +5,42 @@ namespace Socket
 {
 	class Socket
 	{
+		struct SharedSocket
+		{
+			SOCKET m_nSocket{};
+
+		public:
+			SharedSocket() noexcept = default;
+			SharedSocket(const SOCKET &socket) noexcept { m_nSocket = socket; }
+			virtual ~SharedSocket() noexcept { closesocket(m_nSocket); }
+		};
+
 	private:
-		SOCKET m_nSocket{};
+		std::shared_ptr<SharedSocket> m_shrSocket{};
 
 	public:
 		Socket() noexcept = default;
 
-		Socket(SOCKET sock) noexcept
+		Socket(const SOCKET &socket) noexcept
 		{
-			m_nSocket = sock;
-		}
-
-		~Socket() noexcept
-		{
-			closesocket(m_nSocket);
+			setSocket(socket);
 		}
 
 	public:
+		void setSocket(const SOCKET &socket) noexcept
+		{
+			m_shrSocket = std::make_shared<SharedSocket>(socket);
+		}
+
 		SOCKET getSocket() const noexcept
 		{
-			return m_nSocket;
+			return m_shrSocket.get()->m_nSocket;
+		}
+
+	public:
+		operator SOCKET() const noexcept
+		{
+			return getSocket();
 		}
 	};
 }

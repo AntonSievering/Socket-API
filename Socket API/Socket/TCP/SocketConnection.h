@@ -18,11 +18,11 @@ namespace Socket
 		class SocketConnection
 		{
 		private:
-			IOContext            *m_pIOContext = nullptr;
-			SOCKET                m_socket = INVALID_SOCKET;
+			IOContext            *m_pIOContext        = nullptr;
+			Socket                m_socket            = INVALID_SOCKET;
 			bool                  m_bStartupSucceeded = false;
-			bool                  m_bIsConnected = false;
-			std::shared_ptr<char> m_buffer = std::shared_ptr<char>(new char[65536]{});
+			bool                  m_bIsConnected      = false;
+			std::shared_ptr<char> m_buffer            = std::shared_ptr<char>(new char[65536]{});
 
 		public:
 			IPAddress             m_ipAddr{};
@@ -30,7 +30,7 @@ namespace Socket
 		public:
 			SocketConnection() noexcept = default;
 
-			SocketConnection(IOContext &ioContext, const SOCKET &sock, const sockaddr_in &addr) noexcept
+			SocketConnection(IOContext &ioContext, const Socket &sock, const sockaddr_in &addr) noexcept
 			{
 				m_pIOContext = &ioContext;
 				m_socket = sock;
@@ -168,7 +168,7 @@ namespace Socket
 				return m_bIsConnected;
 			}
 
-			SOCKET getSocket() const noexcept
+			Socket getSocket() const noexcept
 			{
 				return m_socket;
 			}

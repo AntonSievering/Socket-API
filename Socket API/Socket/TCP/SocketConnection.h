@@ -1,6 +1,7 @@
 #include "../defines.h"
 #include "../IPAddress.h"
 #include "../IOContext.h"
+#include "../Socket.h"
 #include <algorithm>
 
 #ifdef max
@@ -124,17 +125,6 @@ namespace Socket
 				}
 
 				return std::string();
-			}
-
-			// manully closes the socket
-			// redundant when the object's lifetime ends
-			void Close() noexcept
-			{
-#ifdef _WIN32
-				closesocket(m_socket);
-#elif __linux__
-				shutdown(m_socket, 2);
-#endif
 			}
 
 			uint32_t getReceivedBytes() const noexcept

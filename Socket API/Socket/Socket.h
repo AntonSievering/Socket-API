@@ -11,8 +11,20 @@ namespace Socket
 
 		public:
 			SharedSocket() noexcept = default;
-			SharedSocket(const SOCKET &socket) noexcept { m_nSocket = socket; }
-			virtual ~SharedSocket() noexcept { closesocket(m_nSocket); }
+			
+			SharedSocket(const SOCKET &socket) noexcept
+			{
+				m_nSocket = socket;
+			}
+			
+			virtual ~SharedSocket() noexcept
+			{
+				#ifdef _WIN32
+					closesocket(m_nSocket);
+				#elif __linux__
+					shutdown(m_nSocket, 2);
+				#endif
+			}
 		};
 
 	private:

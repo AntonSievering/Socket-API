@@ -84,12 +84,6 @@ namespace Socket
 					m_qMsgs.pop();
 			}
 			
-			void Close() noexcept
-			{
-				m_client.Close();
-				Clear();
-			}
-			
 			bool isAvailable() noexcept
 			{
 				std::scoped_lock lock(m_lock);

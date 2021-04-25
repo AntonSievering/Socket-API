@@ -4,6 +4,7 @@ class AsyncServer
 {
 private:
 	Socket::TCP::Server m_acceptingServer;
+	Socket::IOContext *ioContext;
 };
 
 int main()

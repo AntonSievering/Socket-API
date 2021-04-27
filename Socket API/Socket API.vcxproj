@@ -147,18 +147,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Socket\defines.h" />
-    <ClInclude Include="Socket\IOContext.h" />
     <ClInclude Include="Socket\IOContext_Base.h" />
     <ClInclude Include="Socket\IOContext_Linux.h" />
     <ClInclude Include="Socket\IOContext_Win32.h" />
     <ClInclude Include="Socket\IPAddress.h" />
     <ClInclude Include="Socket\Socket.h" />
-    <ClInclude Include="Socket\TCP\Client.h" />
+    <ClInclude Include="Socket\TCP\AsyncClient.h" />
+    <ClInclude Include="Socket\TCP\AsyncServer.h" />
     <ClInclude Include="Socket\TCP\Server.h" />
     <ClInclude Include="Socket\TCP\SocketConnection.h" />
+    <ClInclude Include="Socket\ThreadSafe.h" />
     <ClInclude Include="Socket\UDP\Client.h" />
     <ClInclude Include="Socket\UDP\ClientInfo.h" />
     <ClInclude Include="Socket\UDP\Server.h" />
+    <ClInclude Include="Socket\UniformUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

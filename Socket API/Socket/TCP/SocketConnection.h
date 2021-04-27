@@ -1,6 +1,7 @@
+#pragma once
+
 #include "../defines.h"
 #include "../IPAddress.h"
-#include "../IOContext.h"
 #include "../Socket.h"
 #include <algorithm>
 
@@ -11,6 +12,7 @@
 #ifdef min
 #undef min
 #endif
+
 
 namespace Socket
 {
@@ -37,6 +39,7 @@ namespace Socket
 				m_socket = sock;
 				m_ipAddr = IPAddress(addr);
 				m_bIsConnected = true;
+				disableBlockingMode();
 			}
 
 			SocketConnection(IOContext &ioContext, const IPAddress &ip, const std::size_t &port) noexcept
@@ -46,7 +49,7 @@ namespace Socket
 
 				// IPv4 TCP connection
 				addrinfo *result, hints;
-				ZeroMemory(&hints, sizeof(hints));
+				std::memset(&hints, 0x00, sizeof(hints));
 				hints.ai_family = AF_UNSPEC;
 				hints.ai_socktype = SOCK_STREAM;
 				hints.ai_protocol = IPPROTO_TCP;
@@ -68,6 +71,16 @@ namespace Socket
 
 				// cleanup
 				freeaddrinfo(result);
+				disableBlockingMode();
+			}
+
+		private:
+			void disableBlockingMode()
+			{
+				// TODO: test Linux
+
+				u_long iMode = 0;
+				Uniform::ioctl_socket(m_socket, FIONBIO, &iMode);
 			}
 
 		public:
@@ -90,59 +103,33 @@ namespace Socket
 
 			std::string Recv(const uint32_t &nMax = 65536) noexcept
 			{
-				uint32_t n = getReceivedBytes();
-				n = std::min(n, nMax);
-
-				if (n > 0)
-				{
-					int k = recv(m_socket, m_buffer.get(), n, 0);
-
-					if (k == -1)
-					{
-						m_bIsConnected = false;
-						return std::string();
-					}
-
-					return std::string(m_buffer.get(), n);
-				}
-
-				return std::string();
-			}
-
-			std::string RecvBlocking() noexcept
-			{
 				if (m_bIsConnected)
 				{
-					int n = recv(m_socket, m_buffer.get(), 65536, 0);
+					int length = recv(m_socket, m_buffer.get(), 65536, 0);
 
-					if (n == -1)
+					if (length < 1)
 					{
 						m_bIsConnected = false;
 						return std::string();
 					}
 
-					return std::string(m_buffer.get(), n);
+					return std::string(m_buffer.get(), length);
 				}
 
 				return std::string();
 			}
 
-			uint32_t getReceivedBytes() const noexcept
+			uint32_t getIncomingBytes() const noexcept
 			{
-				u_long n;
-
-#ifdef _WIN32
-				(void)ioctlsocket(m_socket, FIONREAD, &n);
-#elif __linux__
-				(void)ioctl(m_socket, FIONREAD, &n);
-#endif
+				u_long n{};
+				Uniform::ioctl_socket(m_socket, FIONREAD, &n);
 
 				return n;
 			}
 
 			bool isAvailable() const noexcept
 			{
-				return getReceivedBytes() > 0;
+				return getIncomingBytes() > 0;
 			}
 
 			bool startupSucceeded() const noexcept

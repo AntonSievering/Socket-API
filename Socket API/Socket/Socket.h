@@ -1,5 +1,8 @@
 #pragma once
+
 #include "defines.h"
+#include "UniformUtils.h"
+
 
 namespace Socket
 {
@@ -19,11 +22,7 @@ namespace Socket
 			
 			virtual ~SharedSocket() noexcept
 			{
-				#ifdef _WIN32
-					closesocket(m_nSocket);
-				#elif __linux__
-					shutdown(m_nSocket, 2);
-				#endif
+				Uniform::socketsocket(m_nSocket);
 			}
 		};
 

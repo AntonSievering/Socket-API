@@ -1,6 +1,8 @@
 #pragma once
+
 #include "../defines.h"
 #include "../IPAddress.h"
+
 
 namespace Socket
 {
@@ -18,11 +20,7 @@ namespace Socket
 			{
 				m_serverConnectionInfo.sin_family = AF_INET;
 				m_serverConnectionInfo.sin_port = htons(port);
-
-				m_serverConnectionInfo.sin_addr.S_un.S_un_b.s_b1 = ip.addr[0];
-				m_serverConnectionInfo.sin_addr.S_un.S_un_b.s_b2 = ip.addr[1];
-				m_serverConnectionInfo.sin_addr.S_un.S_un_b.s_b3 = ip.addr[2];
-				m_serverConnectionInfo.sin_addr.S_un.S_un_b.s_b4 = ip.addr[3];
+				m_serverConnectionInfo.sin_addr.S_un.S_addr = ip.chunk;
 			}
 
 			ClientInfo(const sockaddr_in &clientInfo) noexcept

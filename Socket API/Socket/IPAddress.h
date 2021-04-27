@@ -1,5 +1,7 @@
 #pragma once
+
 #include "defines.h"
+
 
 namespace Socket
 {
@@ -55,14 +57,7 @@ namespace Socket
 	private:
 		void copySockaddr(const sockaddr_in &sockaddr) noexcept
 		{
-#ifdef _WIN32
-			this->addr[0] = sockaddr.sin_addr.S_un.S_un_b.s_b1;
-			this->addr[1] = sockaddr.sin_addr.S_un.S_un_b.s_b2;
-			this->addr[2] = sockaddr.sin_addr.S_un.S_un_b.s_b3;
-			this->addr[3] = sockaddr.sin_addr.S_un.S_un_b.s_b4;
-#elif __linux__
 			chunk = sockaddr.sin_addr.s_addr;
-#endif
 		}
 
 	public:

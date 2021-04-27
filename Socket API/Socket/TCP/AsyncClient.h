@@ -1,8 +1,9 @@
 #pragma once
+
 #include "../defines.h"
-#include "../IOContext.h"
 #include "../IPAddress.h"
 #include "SocketConnection.h"
+
 
 namespace Socket
 {

@@ -28,7 +28,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Socket\TCP\Client.h">
+    <ClInclude Include="Socket\TCP\AsyncClient.h">
       <Filter>Socket\TCP</Filter>
     </ClInclude>
     <ClInclude Include="Socket\TCP\Server.h">
@@ -55,9 +55,6 @@
     <ClInclude Include="Socket\IOContext_Win32.h">
       <Filter>Socket\IOContext</Filter>
     </ClInclude>
-    <ClInclude Include="Socket\IOContext.h">
-      <Filter>Socket\IOContext</Filter>
-    </ClInclude>
     <ClInclude Include="Socket\IOContext_Base.h">
       <Filter>Socket\IOContext</Filter>
     </ClInclude>
@@ -66,6 +63,15 @@
     </ClInclude>
     <ClInclude Include="Socket\Socket.h">
       <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\ThreadSafe.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\UniformUtils.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\TCP\AsyncServer.h">
+      <Filter>Socket\TCP</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

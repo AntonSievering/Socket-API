@@ -47,9 +47,6 @@ namespace Socket
 				Socket sock = INVALID_SOCKET;
 				sockaddr_in addr{};
 				int addrlen = sizeof(sockaddr_in);
-				
-				// TODO: Linux: accept() on failure == -1?
-				// Windows SOCKET is uint64_t?
 
 				while (sock == INVALID_SOCKET)
 					sock = accept(m_socket, (sockaddr *)&addr, &addrlen);

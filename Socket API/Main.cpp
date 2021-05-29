@@ -1,6 +1,11 @@
 #include "Socket/TCP/AsyncServer.h"
 
-class TestServer : public Socket::TCP::AsyncServer
+struct ConnectionData
+{
+	Socket::IPAddress addr;
+};
+
+class TestServer : public Socket::TCP::AsyncServer<ConnectionData>
 {
 public:
 	TestServer() noexcept = default;
@@ -9,9 +14,24 @@ public:
 		: AsyncServer(ioContext) {}
 
 public:
-	std::string handleQuery(const std::string &sQuery) noexcept
+	bool acceptConnection(const Socket::IPAddress &addr, ConnectionData &data) noexcept override
 	{
-		return "std::string()";
+		std::cout << addr << ": connection established" << std::endl;
+		data.addr = addr;
+
+		return true;
+	}
+	
+	std::string handleQuery(const std::string &sQuery, ConnectionData &data) noexcept
+	{
+		std::cout << data.addr << ": " << sQuery << std::endl;
+
+		return "test answer message";
+	}
+
+	void closeConnection(ConnectionData &data) noexcept override
+	{
+		std::cout << data.addr << ": connection closed\n";
 	}
 };
 

@@ -80,5 +80,13 @@ namespace Socket
 		{
 			return std::to_string(addr[0]) + "." + std::to_string(addr[1]) + "." + std::to_string(addr[2]) + "." + std::to_string(addr[3]);
 		}
+
+	public:
+#ifdef _IOSFWD_
+		friend std::ostream &operator << (std::ostream &stream, const IPAddress &addr) noexcept
+		{
+			return stream << addr.asString();
+		}
+#endif
 	};
 }

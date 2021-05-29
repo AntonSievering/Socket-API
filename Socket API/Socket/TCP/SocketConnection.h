@@ -77,8 +77,6 @@ namespace Socket
 		private:
 			void disableBlockingMode()
 			{
-				// TODO: test Linux
-
 				u_long iMode = 0;
 				Uniform::ioctl_socket(m_socket, FIONBIO, &iMode);
 			}
@@ -88,7 +86,7 @@ namespace Socket
 			{
 				if (isConnected())
 				{
-					int n = send(m_socket, msg.c_str(), msg.size(), 0);
+					int n = send(m_socket, msg.c_str(), (int)msg.size(), 0);
 
 					if (n == -1)
 					{

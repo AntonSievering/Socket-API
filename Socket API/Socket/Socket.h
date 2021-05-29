@@ -22,7 +22,7 @@ namespace Socket
 			
 			virtual ~SharedSocket() noexcept
 			{
-				Uniform::socketsocket(m_nSocket);
+				Uniform::closesocket(m_nSocket);
 			}
 		};
 

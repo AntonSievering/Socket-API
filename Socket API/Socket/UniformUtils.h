@@ -8,7 +8,7 @@ namespace Socket
 	namespace Uniform
 	{
 		// ioctlsocket (Windows) == ioctl (Linux)
-		static int __stdcall ioctl_socket(SOCKET s, long cmd, u_long *argp) noexcept
+		static int ioctl_socket(SOCKET s, long cmd, u_long *argp) noexcept
 		{
 #ifdef _WIN32
 			return ioctlsocket(s, cmd, argp);
@@ -18,10 +18,10 @@ namespace Socket
 		}
 
 		// closesocket (Windows) == shutdown (Linux)
-		static int __stdcall socketsocket(SOCKET s) noexcept
+		static int closesocket(SOCKET s) noexcept
 		{
 #ifdef _WIN32
-			return closesocket(s);
+			return ::closesocket(s);
 #elif __linux__
 			return shutdown(s, 2);
 #endif

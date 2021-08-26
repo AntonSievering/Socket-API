@@ -1,4 +1,5 @@
 #include "Socket/TCP/AsyncServer.h"
+#include <iostream>
 
 struct ConnectionData
 {

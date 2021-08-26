@@ -4,7 +4,6 @@
 #define _SOCKET_DEFINES_
 
 	#include <string>
-	#include <iostream>
 	#include <functional>
 	#include <thread>
 	#include <mutex>

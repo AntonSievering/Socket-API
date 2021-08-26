@@ -1,31 +1,36 @@
 #pragma once
 
-#include <string>
-#include <iostream>
-#include <functional>
-#include <thread>
-#include <mutex>
-#include <cstring>
-#include <queue>
-#include <memory>
+#ifndef _SOCKET_DEFINES_
+#define _SOCKET_DEFINES_
 
-#ifdef _WIN32
-	#include <WinSock2.h>
-	#include <ws2tcpip.h>
+	#include <string>
+	#include <iostream>
+	#include <functional>
+	#include <thread>
+	#include <mutex>
+	#include <cstring>
+	#include <queue>
+	#include <memory>
 
-	#pragma comment (lib, "Ws2_32.lib")
-	#pragma comment (lib, "Mswsock.lib")
-	#pragma comment (lib, "AdvApi32.lib")
+	#ifdef _WIN32
+		#include <WinSock2.h>
+		#include <ws2tcpip.h>
 
-#elif __linux__
-	#include <sys/socket.h>
-	#include <sys/types.h>
-	#include <netinet/in.h>
-	#include <arpa/inet.h>
-	#include <netdb.h>
-	#include <sys/ioctl.h>
+		#pragma comment (lib, "Ws2_32.lib")
+		#pragma comment (lib, "Mswsock.lib")
+		#pragma comment (lib, "AdvApi32.lib")
 
-	using SOCKET = int;
-	#define INVALID_SOCKET 0
+	#elif __linux__
+		#include <sys/socket.h>
+		#include <sys/types.h>
+		#include <sys/ioctl.h>		
+		#include <netinet/in.h>
+		#include <arpa/inet.h>
+		#include <netdb.h>
+		
+		using SOCKET = int;
+		#define INVALID_SOCKET 0
 
-#endif // _WIN32
+	#endif // _WIN32
+
+#endif // _SOCKET_DEFINES_

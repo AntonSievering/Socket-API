@@ -2,7 +2,7 @@
 
 struct ConnectionData
 {
-	Socket::IPAddress addr;
+	Socket::IPAddress addr{};
 };
 
 class TestServer : public Socket::TCP::AsyncServer<ConnectionData>
@@ -22,7 +22,7 @@ public:
 		return true;
 	}
 	
-	std::string handleQuery(const std::string &sQuery, ConnectionData &data) noexcept
+	std::string handleQuery(const std::string &sQuery, ConnectionData &data) noexcept override
 	{
 		std::cout << data.addr << ": " << sQuery << std::endl;
 

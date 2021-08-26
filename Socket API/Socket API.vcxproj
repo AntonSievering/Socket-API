@@ -144,9 +144,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Socket\IOContext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Socket\defines.h" />
+    <ClInclude Include="Socket\IOContext.h" />
     <ClInclude Include="Socket\IOContext_Base.h" />
     <ClInclude Include="Socket\IOContext_Linux.h" />
     <ClInclude Include="Socket\IOContext_Win32.h" />

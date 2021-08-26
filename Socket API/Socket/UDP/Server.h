@@ -23,7 +23,6 @@ namespace Socket
 			constexpr static const int s_bufferLength = 1024;
 
 		private:
-			IOContext  *m_pIOContext          = nullptr;
 			int         m_nCachedClientLength = sizeof(m_cachedClient);
 			Socket      m_socket              = INVALID_SOCKET;
 			sockaddr_in m_cachedClient{};
@@ -31,11 +30,6 @@ namespace Socket
 
 		public:
 			Server() noexcept = default;
-			
-			Server(IOContext &ioContext) noexcept
-			{
-				m_pIOContext = &ioContext;
-			}
 			
 		public:
 			bool Bind(const std::size_t &port) noexcept

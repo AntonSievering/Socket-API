@@ -21,7 +21,6 @@ namespace Socket
 		class SocketConnection
 		{
 		private:
-			IOContext            *m_pIOContext        = nullptr;
 			Socket                m_socket            = INVALID_SOCKET;
 			bool                  m_bStartupSucceeded = false;
 			bool                  m_bIsConnected      = false;
@@ -33,18 +32,16 @@ namespace Socket
 		public:
 			SocketConnection() noexcept = default;
 
-			SocketConnection(IOContext &ioContext, const Socket &sock, const sockaddr_in &addr) noexcept
+			SocketConnection(const Socket &sock, const sockaddr_in &addr) noexcept
 			{
-				m_pIOContext = &ioContext;
 				m_socket = sock;
 				m_ipAddr = IPAddress(addr);
 				m_bIsConnected = true;
 				disableBlockingMode();
 			}
 
-			SocketConnection(IOContext &ioContext, const IPAddress &ip, const std::size_t &port) noexcept
+			SocketConnection(const IPAddress &ip, const std::size_t &port) noexcept
 			{
-				m_pIOContext = &ioContext;
 				m_ipAddr = ip;
 
 				// IPv4 TCP connection
@@ -148,11 +145,6 @@ namespace Socket
 			IPAddress getIPAddress() const noexcept
 			{
 				return m_ipAddr;
-			}
-
-			IOContext *getIOContext() const noexcept
-			{
-				return m_pIOContext;
 			}
 		};
 	}

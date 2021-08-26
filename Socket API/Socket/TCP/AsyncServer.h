@@ -27,11 +27,6 @@ namespace Socket
 		public:
 			AsyncServer() noexcept = default;
 
-			AsyncServer(IOContext &ioContext) noexcept
-			{
-				m_acceptingServer = Server(ioContext);
-			}
-
 		public:
 			/* \brief Returns the thread index with the lowest count of active connections, or 0 if the load is equal.
 			*/

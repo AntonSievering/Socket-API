@@ -1,6 +1,6 @@
 #pragma once
 
-#include "defines.h"
+#include <Winsock2.h>
 #include "IOContext_Base.h"
 
 #define IO_CONTEXT_WIN32

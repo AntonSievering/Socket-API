@@ -52,7 +52,7 @@ namespace Socket
 			
 			bool Connect(const IPAddress &ip, const std::size_t &port) noexcept
 			{
-				m_client = SocketConnection(*m_client.getIOContext(), ip, port);
+				m_client = SocketConnection(ip, port);
 
 				if (m_client.startupSucceeded())
 				{

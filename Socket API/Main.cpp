@@ -9,9 +9,6 @@ class TestServer : public Socket::TCP::AsyncServer<ConnectionData>
 {
 public:
 	TestServer() noexcept = default;
-	
-	TestServer(Socket::IOContext &ioContext) noexcept
-		: AsyncServer(ioContext) {}
 
 public:
 	bool acceptConnection(const Socket::IPAddress &addr, ConnectionData &data) noexcept override
@@ -37,7 +34,6 @@ public:
 
 int main()
 {
-	Socket::IOContext ioContext{};
-	TestServer server = TestServer(ioContext);
+	TestServer server{};
 	server.start(5000, 1);
 }

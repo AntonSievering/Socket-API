@@ -26,6 +26,9 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Socket\IOContext.cpp">
+      <Filter>Socket\IOContext</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Socket\TCP\AsyncClient.h">
@@ -72,6 +75,9 @@
     </ClInclude>
     <ClInclude Include="Socket\TCP\AsyncServer.h">
       <Filter>Socket\TCP</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\IOContext.h">
+      <Filter>Socket\IOContext</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

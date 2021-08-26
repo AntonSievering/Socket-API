@@ -12,15 +12,13 @@ namespace Socket
 		class Client
 		{
 		private:
-			IOContext *m_pIOContext;
 			Socket     m_socket;
 
 		public:
 			Client() noexcept = default;
 			
-			Client(IOContext &ioContext, int port = -1) noexcept
+			Client(int port = -1) noexcept
 			{
-				m_pIOContext = &ioContext;
 				m_socket = socket(AF_INET, SOCK_DGRAM, 0);
 				
 				if (port > 0)

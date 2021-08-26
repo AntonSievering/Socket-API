@@ -12,17 +12,11 @@ namespace Socket
 		class Server
 		{
 		private:
-			IOContext *m_ioContext = nullptr;
 			Socket     m_socket    = INVALID_SOCKET;
 			int        m_nResult   = 0;
 
 		public:
 			Server() noexcept = default;
-
-			Server(IOContext &context) noexcept
-			{
-				m_ioContext = &context;
-			}
 			
 		public:
 			bool Bind(const std::size_t &port) noexcept
@@ -51,7 +45,7 @@ namespace Socket
 				while (sock == INVALID_SOCKET)
 					sock = accept(m_socket, (sockaddr *)&addr, &addrlen);
 
-				return SocketConnection(*m_ioContext, sock, addr);
+				return SocketConnection(sock, addr);
 			}
 		};
 	}

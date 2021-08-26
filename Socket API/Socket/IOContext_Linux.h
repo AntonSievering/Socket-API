@@ -6,7 +6,7 @@
 #define IO_CONTEXT_LINUX
 
 #ifdef IO_CONTEXT_WIN32
-#error Either Win32 or Linux io contexts can be included.
+	#error Either Win32 or Linux io contexts can be included.
 #endif
 
 namespace Socket

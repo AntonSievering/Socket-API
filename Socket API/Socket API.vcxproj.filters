@@ -26,7 +26,7 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Socket\IOContext.cpp">
+    <ClCompile Include="Socket\IOContext_Win32.cpp">
       <Filter>Socket\IOContext</Filter>
     </ClCompile>
   </ItemGroup>
@@ -58,12 +58,6 @@
     <ClInclude Include="Socket\IOContext_Win32.h">
       <Filter>Socket\IOContext</Filter>
     </ClInclude>
-    <ClInclude Include="Socket\IOContext_Base.h">
-      <Filter>Socket\IOContext</Filter>
-    </ClInclude>
-    <ClInclude Include="Socket\IOContext_Linux.h">
-      <Filter>Socket\IOContext</Filter>
-    </ClInclude>
     <ClInclude Include="Socket\Socket.h">
       <Filter>Socket</Filter>
     </ClInclude>
@@ -75,9 +69,6 @@
     </ClInclude>
     <ClInclude Include="Socket\TCP\AsyncServer.h">
       <Filter>Socket\TCP</Filter>
-    </ClInclude>
-    <ClInclude Include="Socket\IOContext.h">
-      <Filter>Socket\IOContext</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

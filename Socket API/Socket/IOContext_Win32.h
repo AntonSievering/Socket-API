@@ -1,17 +1,13 @@
 #pragma once
 
+#ifdef _WIN32
+
 #include <Winsock2.h>
-#include "IOContext_Base.h"
 
-#define IO_CONTEXT_WIN32
-
-#ifdef IO_CONTEXT_LINUX
-#error Either Win32 or Linux io contexts can be included.
-#endif
 
 namespace Socket
 {
-	class IOContext final : public IOContextBase
+	class IOContext
 	{
 	private:
 		WSAData m_wsaData;
@@ -29,9 +25,11 @@ namespace Socket
 		}
 
 	public:
-		bool startupSucceeded() const noexcept override
+		bool startupSucceeded() const noexcept
 		{
 			return bSucceded;
 		}
 	};
 }
+
+#endif

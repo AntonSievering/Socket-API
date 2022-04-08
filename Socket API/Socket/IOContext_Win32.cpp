@@ -4,6 +4,6 @@
 #ifdef _WIN32
 
 // only nessesary on Windows
-Socket::IOContext g_ioContext{};
+net::IOContext g_ioContext{};
 
 #endif

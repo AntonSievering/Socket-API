@@ -4,54 +4,59 @@
 #include "UniformUtils.h"
 
 
-namespace Socket
+namespace net
 {
+	/**
+	 * @brief Takes ownership of a socket file descriptor.
+	 */
 	class Socket
 	{
-		struct SharedSocket
-		{
-			SOCKET m_nSocket{};
-
-		public:
-			SharedSocket() noexcept = default;
-			
-			SharedSocket(const SOCKET &socket) noexcept
-			{
-				m_nSocket = socket;
-			}
-			
-			virtual ~SharedSocket() noexcept
-			{
-				Uniform::closesocket(m_nSocket);
-			}
-		};
-
 	private:
-		std::shared_ptr<SharedSocket> m_shrSocket{};
+		SOCKET m_sockfd = INVALID_SOCKET;
 
 	public:
 		Socket() noexcept = default;
 
-		Socket(const SOCKET &socket) noexcept
+		Socket(SOCKET sockfd) noexcept
 		{
-			setSocket(socket);
+			m_sockfd = sockfd;
+		}
+
+		Socket(int af, int type, int protocol = 0) noexcept
+		{
+			m_sockfd = socket(AF_INET, SOCK_STREAM, protocol);
+		}
+
+		Socket(const Socket &) = delete;
+
+		Socket(Socket &&rhs) noexcept
+		{
+			m_sockfd = rhs.m_sockfd;
+			rhs.m_sockfd = INVALID_SOCKET;
+		}
+
+		virtual ~Socket() noexcept
+		{
+			net::Uniform::closesocket(m_sockfd);
 		}
 
 	public:
-		void setSocket(const SOCKET &socket) noexcept
-		{
-			m_shrSocket = std::make_shared<SharedSocket>(socket);
-		}
+		Socket &operator=(const Socket &) = delete;
 
-		SOCKET getSocket() const noexcept
+		Socket &operator=(Socket &&rhs) noexcept
 		{
-			return m_shrSocket.get()->m_nSocket;
+			std::swap(m_sockfd, rhs.m_sockfd);
 		}
 
 	public:
 		operator SOCKET() const noexcept
 		{
-			return getSocket();
+			return m_sockfd;
+		}
+
+		bool isValid() const noexcept
+		{
+			return m_sockfd != INVALID_SOCKET;
 		}
 	};
 }

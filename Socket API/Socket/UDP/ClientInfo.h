@@ -4,7 +4,7 @@
 #include "../IPAddress.h"
 
 
-namespace Socket
+namespace net
 {
 	namespace UDP
 	{

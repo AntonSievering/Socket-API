@@ -5,7 +5,7 @@
 #include "Server.h"
 
 
-namespace Socket
+namespace net
 {
 	namespace TCP
 	{

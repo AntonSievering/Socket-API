@@ -6,7 +6,7 @@
 #include "../Socket.h"
 
 
-namespace Socket
+namespace net
 {
 	namespace UDP
 	{

@@ -5,7 +5,7 @@
 #include <Winsock2.h>
 
 
-namespace Socket
+namespace net
 {
 	class IOContext
 	{

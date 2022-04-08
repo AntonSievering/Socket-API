@@ -5,7 +5,7 @@
 #include "ClientInfo.h"
 
 
-namespace Socket
+namespace net
 {
 	namespace UDP
 	{

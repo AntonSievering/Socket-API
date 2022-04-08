@@ -3,7 +3,7 @@
 #include "defines.h"
 
 
-namespace Socket
+namespace net
 {
 	namespace Uniform
 	{

@@ -14,7 +14,7 @@
 #endif
 
 
-namespace Socket
+namespace net
 {
 	namespace TCP
 	{
@@ -32,9 +32,9 @@ namespace Socket
 		public:
 			SocketConnection() noexcept = default;
 
-			SocketConnection(const Socket &sock, const sockaddr_in &addr) noexcept
+			SocketConnection(Socket &&sock, const sockaddr_in &addr) noexcept
 			{
-				m_socket = sock;
+				m_socket = std::move(sock);
 				m_ipAddr = IPAddress(addr);
 				m_bIsConnected = true;
 				disableBlockingMode();
@@ -135,11 +135,6 @@ namespace Socket
 			bool isConnected() const noexcept
 			{
 				return m_bIsConnected;
-			}
-
-			Socket getSocket() const noexcept
-			{
-				return m_socket;
 			}
 
 			IPAddress getIPAddress() const noexcept

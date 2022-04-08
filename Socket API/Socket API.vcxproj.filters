@@ -64,11 +64,11 @@
     <ClInclude Include="Socket\ThreadSafe.h">
       <Filter>Socket</Filter>
     </ClInclude>
-    <ClInclude Include="Socket\UniformUtils.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
     <ClInclude Include="Socket\TCP\AsyncServer.h">
       <Filter>Socket\TCP</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket\UniformUtils.h">
+      <Filter>Socket</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

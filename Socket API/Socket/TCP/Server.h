@@ -5,7 +5,7 @@
 #include "../Socket.h"
 
 
-namespace Socket
+namespace net
 {
 	namespace TCP
 	{
@@ -38,14 +38,15 @@ namespace Socket
 			
 			[[nodiscard]] SocketConnection Accept() noexcept
 			{
-				Socket sock = INVALID_SOCKET;
+				Socket sock;
 				sockaddr_in addr{};
-				int addrlen = sizeof(sockaddr_in);
+				static int addrlen = sizeof(sockaddr_in);
 
-				while (sock == INVALID_SOCKET)
+				do
 					sock = accept(m_socket, (sockaddr *)&addr, &addrlen);
+				while (sock == INVALID_SOCKET);
 
-				return SocketConnection(sock, addr);
+				return SocketConnection(std::move(sock), addr);
 			}
 		};
 	}

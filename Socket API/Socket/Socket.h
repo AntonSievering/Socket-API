@@ -46,6 +46,7 @@ namespace net
 		Socket &operator=(Socket &&rhs) noexcept
 		{
 			std::swap(m_sockfd, rhs.m_sockfd);
+			return *this;
 		}
 
 	public:
